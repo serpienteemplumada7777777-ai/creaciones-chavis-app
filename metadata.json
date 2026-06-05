@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Creaciones Chavis App",
+  "description": "Un marketplace de aplicaciones Android donde puedes subir tus propios archivos APK y descargar aplicaciones premium, juegos y herramientas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
