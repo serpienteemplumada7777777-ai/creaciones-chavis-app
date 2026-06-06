@@ -69,6 +69,14 @@ export default function Footer({ setCurrentPage, appsCount }: FooterProps) {
               </button>
             </li>
             <li>
+              <button 
+                onClick={() => setCurrentPage('control-panel')} 
+                className="hover:text-indigo-400 transition-colors hover:underline text-left cursor-pointer"
+              >
+                Panel de Control Backend
+              </button>
+            </li>
+            <li>
               <a href="#about" className="hover:text-indigo-400 transition-colors hover:underline">
                 Nosotros e Historia
               </a>

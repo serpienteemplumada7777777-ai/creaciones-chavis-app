@@ -20,4 +20,4 @@ export interface AppItem {
   fileName?: string;
 }
 
-export type PageId = 'home' | 'catalog' | 'upload';
+export type PageId = 'home' | 'catalog' | 'upload' | 'control-panel';

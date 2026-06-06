@@ -86,6 +86,17 @@ export default function Header({
           >
             Subir APK
           </button>
+          <button
+            onClick={() => setCurrentPage('control-panel')}
+            className={`font-semibold py-1 px-2 text-xs uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
+              currentPage === 'control-panel'
+                ? 'text-indigo-400 border-indigo-500'
+                : 'text-slate-400 border-transparent hover:text-white hover:border-white/10'
+            }`}
+            id="nav-control-panel"
+          >
+            Panel de Control
+          </button>
         </div>
 
         {/* Right Section: Search & Actions */}

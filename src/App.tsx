@@ -30,6 +30,7 @@ import Footer from './components/Footer';
 import HomeView from './components/HomeView';
 import AppsView from './components/AppsView';
 import UploadView from './components/UploadView';
+import ControlPanelView from './components/ControlPanelView';
 
 export default function App() {
   // 1. PAGE STATE
@@ -37,35 +38,32 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
 
-  // ====== LOCAL PERSISTENCE FOR METADATA ======
-  const [apps, setApps] = useState<AppItem[]>(() => {
+  // ====== SERVER PERSISTENCE FOR METADATA ======
+  const [apps, setApps] = useState<AppItem[]>([]);
+
+  // Fetch all applications (Combined system + custom uploads) from Express backend
+  const fetchApps = async () => {
     try {
-      const stored = localStorage.getItem('chavis_apps_metadata');
-      if (stored) {
-        const parsed = JSON.parse(stored) as AppItem[];
-        // Filter out any default apps to avoid duplication, only keep user uploads
-        const uploadedOnly = parsed.filter(x => x.id.startsWith('uploaded-'));
-        return [...INITIAL_APPS, ...uploadedOnly];
+      const response = await fetch('/api/apps');
+      const responseJson = await response.json();
+      if (responseJson.success && responseJson.data) {
+        setApps(responseJson.data);
+      } else {
+        setApps(INITIAL_APPS);
       }
     } catch (e) {
-      console.warn("Could not restore apps from localStorage", e);
+      console.error("Could not load applications from backend:", e);
+      setApps(INITIAL_APPS);
     }
-    return INITIAL_APPS;
-  });
+  };
 
-  // Save changes to localStorage (Only metadata, exclude heavy file blobs)
   useEffect(() => {
-    try {
-      const metadataOnly = apps.map(({ blob, ...metadata }) => metadata);
-      localStorage.setItem('chavis_apps_metadata', JSON.stringify(metadataOnly));
-    } catch (e) {
-      console.error("Could not write apps to localStorage", e);
-    }
-  }, [apps]);
+    fetchApps();
+  }, []);
 
-  // Handle adding a new application
+  // Handle adding a new application (triggers server refetch immediately)
   const handleAddApp = (newApp: AppItem) => {
-    setApps((prev) => [newApp, ...prev]);
+    fetchApps();
   };
 
   // ====== DOWNLOAD SERVICE SIMULATOR =======
@@ -117,52 +115,19 @@ export default function App() {
     }, 150);
   };
 
-  // Compile real installer installer bypass for safe delivery
+  // Trigger actual file compilation and download from correct server API endpoint
   const initiateNativeFileDownload = (app: AppItem) => {
-    let fileBlob: Blob;
-    let fileName = app.fileName || `${app.title.toLowerCase().replace(/\s+/g, '_')}.apk`;
-
-    if (app.blob) {
-      // Byte-for-byte matching of user-uploaded file!
-      fileBlob = app.blob;
-    } else {
-      // Prebuilt static app: Generate a real installer template file
-      const manifestBytes = `
-===================================================================
-   CREACIONES CHAVIS APP - MARKETPLACE DE ANDROID VERIFICADO
-===================================================================
-App ID:         ${app.id}
-Nombre:         ${app.title}
-Firma Dev:      ${app.developer}
-Categoría:      ${app.category}
-Peso Declarado: ${app.size}
-Clasificación:  ${app.rating} / 5.0
-Publicación:    ${app.dateAdded}
-Estado Check:   SEGURO / VERIFICADO CONTRA AMENAZAS
-===================================================================
-
-[AndroidRuntime] Iniciando instalador de Creaciones Chavis...
-[BypassVerifier] Todos los paquetes de seguridad internos han sido superados con éxito.
-Instalando los recursos estáticos de ${app.title}...
-
-Este archivo APK actúa como contenedor seguro para fines de demostración en AI Studio.
-¡Felicidades, la descarga se ha completado perfectamente!
-===================================================================
-`;
-      fileBlob = new Blob([manifestBytes], { type: 'application/vnd.android.package-archive' });
-    }
-
-    // Trigger local anchor download
-    const url = URL.createObjectURL(fileBlob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
+    a.href = `/api/download/${app.id}`;
+    a.download = app.fileName || `${app.title.toLowerCase().replace(/\s+/g, '_')}.apk`;
     document.body.appendChild(a);
     a.click();
-    
-    // Clean up
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+
+    // Register count increment on backend
+    fetch(`/api/apps/${app.id}/download-increment`, { method: 'POST' })
+      .then(() => fetchApps())
+      .catch((err) => console.error('Could not register click increment:', err));
   };
 
   return (
@@ -204,6 +169,14 @@ Este archivo APK actúa como contenedor seguro para fines de demostración en AI
             onAddApp={handleAddApp}
             setCurrentPage={setCurrentPage}
             setCategoryFilter={setCategoryFilter}
+          />
+        )}
+
+        {currentPage === 'control-panel' && (
+          <ControlPanelView 
+            apps={apps}
+            onReloadApps={fetchApps}
+            setCurrentPage={setCurrentPage}
           />
         )}
       </main>

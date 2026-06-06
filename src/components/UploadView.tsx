@@ -186,32 +186,49 @@ export default function UploadView({
     }, 150);
   };
 
-  const completeSubmission = () => {
-    // Determine Icon URL
-    let finalIcon = selectedPresetUrl;
-    if (iconMode === 'custom' && customIconPre) {
-      finalIcon = customIconPre;
+  const completeSubmission = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('title', title.trim());
+      formData.append('developer', developer.trim());
+      formData.append('category', category);
+      formData.append('description', description.trim());
+      formData.append('size', sizeStr);
+      formData.append('secretKey', '8963'); // Master access key is always 8963
+
+      if (uploadedFile) {
+        formData.append('apk', uploadedFile);
+      }
+
+      if (iconMode === 'custom' && customIconFile) {
+        formData.append('icon', customIconFile);
+      } else {
+        formData.append('presetIconUrl', selectedPresetUrl);
+      }
+
+      const res = await fetch('/api/apps/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.message || 'Error del servidor durante la subida.');
+      }
+
+      const responseData = await res.json();
+      if (responseData.success && responseData.data) {
+        const savedApp = responseData.data;
+        onAddApp(savedApp);
+        setUploadedAppRecord(savedApp);
+        setFormStep('completed');
+      } else {
+        throw new Error(responseData.message || 'Error guardando en el servidor.');
+      }
+    } catch (e: any) {
+      alert(`Error al subir la aplicación: ${e.message}`);
+      setFormStep('edit');
     }
-
-    const uniqueId = `uploaded-${Date.now()}`;
-    const newApp: AppItem = {
-      id: uniqueId,
-      title: title.trim(),
-      developer: developer.trim(),
-      category: category,
-      description: description.trim(),
-      size: sizeStr,
-      rating: parseFloat((4.5 + Math.random() * 0.5).toFixed(1)),
-      downloadsCount: 0,
-      iconUrl: finalIcon,
-      dateAdded: new Date().toISOString().split('T')[0],
-      blob: uploadedFile || undefined,
-      fileName: uploadedFile?.name || `${title.replace(/\s+/g, '_')}.apk`
-    };
-
-    onAddApp(newApp);
-    setUploadedAppRecord(newApp);
-    setFormStep('completed');
   };
 
   const resetForm = () => {
