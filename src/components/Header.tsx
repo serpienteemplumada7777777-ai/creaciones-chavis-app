@@ -1,136 +1,143 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState } from 'react';
-import { Search, Sparkles, Upload, User } from 'lucide-react';
-import { PageId } from '../types';
+import { Menu, X, Wind, Phone, Mail } from 'lucide-react';
 
 interface HeaderProps {
-  currentPage: PageId;
-  setCurrentPage: (page: PageId) => void;
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  totalAppsCount: number;
+  activeSection: string;
+  onNavigate: (sectionId: string) => void;
 }
 
-export default function Header({
-  currentPage,
-  setCurrentPage,
-  searchQuery,
-  setSearchQuery,
-  totalAppsCount,
-}: HeaderProps) {
-  const [localSearch, setLocalSearch] = useState(searchQuery);
+export default function Header({ activeSection, onNavigate }: HeaderProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSearchQuery(localSearch);
-    setCurrentPage('catalog');
+  const navItems = [
+    { id: 'inicio', label: 'Inicio' },
+    { id: 'precios', label: 'Precios' },
+    { id: 'contacto', label: 'Contacta con nosotros' }
+  ];
+
+  const handleNavClick = (id: string) => {
+    onNavigate(id);
+    setIsMenuOpen(false);
   };
 
   return (
-    <header className="w-full h-16 border-b border-white/5 bg-[#121418] sticky top-0 z-50">
-      <nav className="flex justify-between items-center px-4 md:px-16 max-w-[1280px] mx-auto w-full h-full gap-4">
-        {/* Logo/Brand */}
+    <header className="sticky top-0 z-50 bg-white border-b border-slate-100 shadow-sm">
+      {/* Top small quick contact bar */}
+      <div className="bg-slate-900 text-slate-300 py-2 px-4 text-xs font-sans">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-4">
+            <span className="flex items-center">
+              <Phone className="w-3.5 h-3.5 text-sky-400 mr-1.5" />
+              <a href="tel:8120000005" className="hover:text-white transition-colors font-semibold">
+                81 2000 0005
+              </a>
+            </span>
+            <span className="hidden sm:inline text-slate-700">|</span>
+            <span className="hidden sm:flex items-center">
+              <Mail className="w-3.5 h-3.5 text-sky-400 mr-1.5" />
+              <a href="mailto:contacto@climatizacionchavis.com" className="hover:text-white transition-colors">
+                contacto@climatizacionchavis.com
+              </a>
+            </span>
+          </div>
+          <div className="text-[10px] font-bold text-sky-400 bg-slate-850 px-2 py-0.5 rounded font-sans">
+            MONTERREY, NL
+          </div>
+        </div>
+      </div>
+
+      {/* Main Brand & Nav bar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        {/* Brand logo */}
         <div 
-          onClick={() => setCurrentPage('home')}
-          className="flex items-center gap-2.5 cursor-pointer group select-none active:scale-98 transition-all"
-          id="logo-brand"
+          onClick={() => handleNavClick('inicio')}
+          className="flex items-center space-x-3 cursor-pointer select-none"
         >
-          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
-            <Sparkles className="w-4.5 h-4.5 text-white" />
+          <div className="p-2 bg-sky-600 text-white rounded-xl shadow-md shadow-sky-600/20">
+            <Wind className="w-6 h-6" />
           </div>
-          <span className="text-lg font-bold text-white tracking-tight whitespace-nowrap">
-            Creaciones <span className="text-indigo-400">Chavis</span> App
-          </span>
-        </div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex gap-8 items-center ml-4">
-          <button
-            onClick={() => setCurrentPage('home')}
-            className={`font-semibold py-1 px-2 text-xs uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
-              currentPage === 'home'
-                ? 'text-indigo-400 border-indigo-500'
-                : 'text-slate-400 border-transparent hover:text-white hover:border-white/10'
-            }`}
-            id="nav-home"
-          >
-            Inicio
-          </button>
-          <button
-            onClick={() => {
-              setSearchQuery('');
-              setLocalSearch('');
-              setCurrentPage('catalog');
-            }}
-            className={`font-semibold py-1 px-2 text-xs uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
-              currentPage === 'catalog'
-                ? 'text-indigo-400 border-indigo-500'
-                : 'text-slate-400 border-transparent hover:text-white hover:border-white/10'
-            }`}
-            id="nav-catalog"
-          >
-            Aplicaciones
-          </button>
-          <button
-            onClick={() => setCurrentPage('upload')}
-            className={`font-semibold py-1 px-2 text-xs uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
-              currentPage === 'upload'
-                ? 'text-indigo-400 border-indigo-500'
-                : 'text-slate-400 border-transparent hover:text-white hover:border-white/10'
-            }`}
-            id="nav-upload"
-          >
-            Subir APK
-          </button>
-          <button
-            onClick={() => setCurrentPage('control-panel')}
-            className={`font-semibold py-1 px-2 text-xs uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
-              currentPage === 'control-panel'
-                ? 'text-indigo-400 border-indigo-500'
-                : 'text-slate-400 border-transparent hover:text-white hover:border-white/10'
-            }`}
-            id="nav-control-panel"
-          >
-            Panel de Control
-          </button>
-        </div>
-
-        {/* Right Section: Search & Actions */}
-        <div className="flex items-center gap-3 flex-1 md:flex-initial justify-end">
-          <form onSubmit={handleSearchSubmit} className="relative w-full max-w-[200px] sm:max-w-[240px]">
-            <input
-              type="text"
-              placeholder="Buscar aplicaciones..."
-              value={localSearch}
-              onChange={(e) => setLocalSearch(e.target.value)}
-              className="w-full bg-white/5 hover:bg-white/[0.08] focus:bg-slate-900 border border-white/5 focus:border-indigo-500/50 rounded-full py-1.5 px-9 text-xs outline-hidden focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 transition-all text-white placeholder-slate-500"
-              id="search-input"
-            />
-            <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
-          </form>
-
-          {/* Quick Upload CTA Button */}
-          <button
-            onClick={() => setCurrentPage('upload')}
-            className="hidden sm:flex items-center gap-1.5 bg-white/5 hover:bg-white/10 text-indigo-300 hover:text-indigo-200 px-3.5 py-1.5 rounded-full text-xs font-semibold cursor-pointer active:scale-95 transition-all shadow-sm border border-white/5"
-            id="quick-upload-cta"
-          >
-            <Upload className="w-3.5 h-3.5" />
-            Subir
-          </button>
-
-          {/* Profile Circle Badge */}
-          <div className="flex items-center gap-1 bg-white/5 rounded-full p-0.5 border border-white/5">
-            <div className="w-7 h-7 bg-indigo-600/25 text-indigo-400 rounded-full flex items-center justify-center shadow-inner cursor-pointer hover:bg-indigo-600/40 transition-colors" title="Alex Rivera (Pro)">
-              <User className="w-4 h-4" />
+          <div>
+            <div className="flex items-baseline">
+              <span className="text-lg font-display font-black text-slate-900 tracking-tight">Climatización</span>
+              <span className="text-lg font-display font-black text-sky-600 tracking-tight ml-1">Chavis</span>
             </div>
+            <span className="text-[10px] font-bold text-slate-400 tracking-widest block font-sans">
+              CONFORT PROFESIONAL
+            </span>
           </div>
         </div>
-      </nav>
+
+        {/* Desktop Web Nav */}
+        <nav className="hidden md:flex items-center space-x-1 font-sans">
+          {navItems.map((item) => {
+            const isActive = activeSection === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleNavClick(item.id)}
+                className={`px-4 py-2 rounded-xl text-sm font-bold tracking-wide transition-colors cursor-pointer ${
+                  isActive
+                    ? 'bg-sky-50 text-sky-600'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                }`}
+              >
+                {item.label}
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Action Button */}
+        <div className="hidden md:block">
+          <button
+            onClick={() => handleNavClick('contacto')}
+            className="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-sans font-extrabold text-xs uppercase tracking-wide rounded-xl transition-all cursor-pointer shadow-md shadow-sky-600/15"
+          >
+            Presupuesto Gratis
+          </button>
+        </div>
+
+        {/* Mobile Menu Trigger */}
+        <div className="md:hidden">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg outline-none transition-colors"
+            aria-label="Menú"
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Nav Drawer */}
+      {isMenuOpen && (
+        <div className="md:hidden border-t border-slate-100 bg-white px-4 py-4 space-y-2 shadow-inner animate-fadeIn">
+          {navItems.map((item) => {
+            const isActive = activeSection === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleNavClick(item.id)}
+                className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-all ${
+                  isActive
+                    ? 'bg-sky-50 text-sky-600'
+                    : 'text-slate-700 hover:bg-slate-50 hover:text-slate-950'
+                }`}
+              >
+                {item.label}
+              </button>
+            );
+          })}
+          <div className="pt-4 border-t border-slate-100 mt-2">
+            <button
+              onClick={() => handleNavClick('contacto')}
+              className="w-full text-center bg-sky-600 text-white py-3 rounded-xl font-sans font-bold text-sm shadow-md"
+            >
+              Presupuesto Gratis
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

@@ -1,6 +1,6 @@
 {
-  "name": "Creaciones Chavis App",
-  "description": "Un marketplace de aplicaciones Android donde puedes subir tus propios archivos APK y descargar aplicaciones, juegos y herramientas.",
+  "name": "Climatización Chavis",
+  "description": "Sitio web oficial de Climatización Chavis. Servicios profesionales de aire acondicionado y calefacción. Conoce nuestro inicio, precios y contáctanos.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

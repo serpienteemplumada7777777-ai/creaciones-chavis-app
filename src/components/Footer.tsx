@@ -1,160 +1,97 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { Globe, Mail, Share2, HelpCircle } from 'lucide-react';
-import { PageId } from '../types';
+import React from 'react';
+import { Phone, Mail, Clock, MapPin, Wind, Heart } from 'lucide-react';
 
 interface FooterProps {
-  setCurrentPage: (page: PageId) => void;
-  appsCount: number;
+  onNavigate: (sectionId: string) => void;
 }
 
-export default function Footer({ setCurrentPage, appsCount }: FooterProps) {
-  const currentYear = new Date().getFullYear();
-
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'Creaciones Chavis App',
-        text: '¡Descubre y descarga las mejores aplicaciones Android en el marketplace de Creaciones Chavis!',
-        url: window.location.href,
-      }).catch(console.error);
-    } else {
-      alert('Enlace de la tienda copiado al portapapeles');
-      navigator.clipboard.writeText(window.location.href);
-    }
-  };
-
+export default function Footer({ onNavigate }: FooterProps) {
   return (
-    <footer className="w-full py-12 border-t border-white/5 bg-[#121418] text-slate-300 tracking-tight mt-16 mb-16 md:mb-0">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4 md:px-16 max-w-[1280px] mx-auto w-full text-center md:text-left">
-        
-        {/* Brand Widget */}
-        <div className="flex flex-col gap-3">
-          <div 
-            onClick={() => setCurrentPage('home')}
-            className="flex items-center gap-2 justify-center md:justify-start cursor-pointer group"
-          >
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
-              <span className="font-bold text-base">C</span>
+    <footer className="bg-slate-900 text-slate-300 font-sans border-t border-slate-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+          
+          {/* Brand Info */}
+          <div className="space-y-4">
+            <div className="flex items-center space-x-3">
+              <div className="p-2.5 bg-sky-600 text-white rounded-xl">
+                <Wind className="w-5 h-5" />
+              </div>
+              <span className="text-xl font-display font-extrabold text-white tracking-tight">
+                Climatización <span className="text-sky-500">Chavis</span>
+              </span>
             </div>
-            <span className="text-lg font-bold text-white">
-              Creaciones <span className="text-indigo-400">Chavis</span> App
-            </span>
+            <p className="text-sm text-slate-400 leading-relaxed font-sans">
+              Servicios profesionales de climatización, aire acondicionado y calefacción. Trabajamos en todo Monterrey y área metropolitana con calidad inigualable y honestidad total.
+            </p>
           </div>
-          <p className="text-slate-400 text-xs font-sans leading-relaxed max-w-sm mx-auto md:mx-0">
-            Tu destino número uno para las mejores aplicaciones y juegos de Android, seleccionados con pasión, rigor técnico y un catálogo en continuo crecimiento ({appsCount} aplicaciones disponibles).
-          </p>
-        </div>
 
-        {/* Recursos */}
-        <div>
-          <h4 className="font-semibold text-xs text-slate-400 uppercase tracking-widest mb-4">
-            Recursos
-          </h4>
-          <ul className="space-y-2 text-sm text-slate-500">
-            <li>
-              <a href="#support" className="hover:text-indigo-400 transition-colors hover:underline">
-                Soporte y Preguntas Frecuentes
-              </a>
-            </li>
-            <li>
-              <button 
-                onClick={() => setCurrentPage('upload')} 
-                className="hover:text-indigo-400 transition-colors hover:underline text-left cursor-pointer"
+          {/* Quick Links */}
+          <div className="space-y-4">
+            <h4 className="text-xs font-display font-bold uppercase tracking-widest text-white border-b border-slate-800 pb-2">
+              Enlaces rápidos
+            </h4>
+            <div className="flex flex-col space-y-2.5 text-sm font-semibold">
+              <button
+                onClick={() => onNavigate('inicio')}
+                className="text-left text-slate-400 hover:text-white transition-colors cursor-pointer"
               >
-                Portal de Desarrolladores
+                Inicio
               </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => setCurrentPage('control-panel')} 
-                className="hover:text-indigo-400 transition-colors hover:underline text-left cursor-pointer"
+              <button
+                onClick={() => onNavigate('precios')}
+                className="text-left text-slate-400 hover:text-white transition-colors cursor-pointer"
               >
-                Panel de Control Backend
+                Precios y tarifas
               </button>
-            </li>
-            <li>
-              <a href="#about" className="hover:text-indigo-400 transition-colors hover:underline">
-                Nosotros e Historia
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        {/* Legal */}
-        <div>
-          <h4 className="font-semibold text-xs text-slate-400 uppercase tracking-widest mb-4">
-            legal
-          </h4>
-          <ul className="space-y-2 text-sm text-slate-500">
-            <li>
-              <a href="#privacy" className="hover:text-indigo-400 transition-colors hover:underline">
-                Política de Privacidad
-              </a>
-            </li>
-            <li>
-              <a href="#terms" className="hover:text-indigo-400 transition-colors hover:underline">
-                Términos del Servicio
-              </a>
-            </li>
-            <li>
-              <a href="#cookies" className="hover:text-indigo-400 transition-colors hover:underline">
-                Ajustes de Cookies
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        {/* Redes e Interacciones */}
-        <div>
-          <h4 className="font-semibold text-xs text-slate-400 uppercase tracking-widest mb-4">
-            Contacto & Social
-          </h4>
-          <div className="flex justify-center md:justify-start gap-4 mb-4">
-            <a 
-              href="https://creacioneschavis.example.com" 
-              target="_blank" 
-              rel="noreferrer"
-              className="w-8 h-8 rounded-full bg-[#1e222b] flex items-center justify-center text-slate-400 hover:text-indigo-400 hover:bg-indigo-600/10 transition-all shadow-3xs border border-white/5"
-              title="Visitar Sitio Web"
-            >
-              <Globe className="w-4 h-4" />
-            </a>
-            <a 
-              href="mailto:serpienteemplumada7777777@gmail.com"
-              className="w-8 h-8 rounded-full bg-[#1e222b] flex items-center justify-center text-slate-400 hover:text-indigo-400 hover:bg-indigo-600/10 transition-all shadow-3xs border border-white/5"
-              title="Enviar Correo Electrónico"
-            >
-              <Mail className="w-4 h-4" />
-            </a>
-            <button 
-              onClick={handleShare}
-              className="w-8 h-8 rounded-full bg-[#1e222b] flex items-center justify-center text-slate-400 hover:text-indigo-400 hover:bg-indigo-600/10 cursor-pointer transition-all shadow-3xs border border-white/5"
-              title="Compartir Marketplace"
-            >
-              <Share2 className="w-4 h-4" />
-            </button>
-            <a 
-              href="#help"
-              className="w-8 h-8 rounded-full bg-[#1e222b] flex items-center justify-center text-slate-400 hover:text-indigo-400 hover:bg-indigo-600/10 transition-all shadow-3xs border border-white/5"
-              title="Obtener Ayuda"
-            >
-              <HelpCircle className="w-4 h-4" />
-            </a>
+              <button
+                onClick={() => onNavigate('contacto')}
+                className="text-left text-slate-400 hover:text-white transition-colors cursor-pointer"
+              >
+                Contacta con nosotros
+              </button>
+            </div>
           </div>
-          <p className="text-slate-400 text-2xs leading-relaxed max-w-sm mx-auto md:mx-0">
-            Soporte oficial provisto para usuarios de Creaciones Chavis App de manera remota e instantánea.
-          </p>
+
+          {/* Core Info */}
+          <div className="space-y-4 text-sm">
+            <h4 className="text-xs font-display font-bold uppercase tracking-widest text-white border-b border-slate-800 pb-2">
+              Atención Directa
+            </h4>
+            <div className="space-y-3">
+              <div className="flex items-center space-x-3 text-slate-400">
+                <Phone className="w-4 h-4 text-sky-500" />
+                <a href="tel:8120000005" className="hover:text-white transition-colors font-bold">
+                  81 2000 0005
+                </a>
+              </div>
+              <div className="flex items-center space-x-3 text-slate-400">
+                <Mail className="w-4 h-4 text-sky-500" />
+                <a href="mailto:contacto@climatizacionchavis.com" className="hover:text-white transition-colors">
+                  contacto@climatizacionchavis.com
+                </a>
+              </div>
+              <div className="flex items-start space-x-3 text-slate-400">
+                <MapPin className="w-4 h-4 text-sky-500 mt-1 shrink-0" />
+                <span className="leading-tight">
+                  Monterrey, Nuevo León, México
+                </span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <div className="max-w-[1280px] mx-auto px-4 md:px-16 mt-10 pt-6 border-t border-white/5 text-center">
-        <p className="text-xs text-slate-500">
-          © {currentYear} Creaciones Chavis App. Todos los derechos reservados. Diseñado con altos estándares para Android.
-        </p>
+      {/* Corporate copyright footer */}
+      <div className="bg-slate-950 py-6 px-4 text-center text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-sans">
+          <span>© {new Date().getFullYear()} Climatización Chavis. Todos los derechos reservados.</span>
+          <div className="flex items-center space-x-1 justify-center">
+            <span>Climatización garantizada con honestidad</span>
+            <Heart className="w-3.5 h-3.5 text-rose-500 fill-current" />
+          </div>
+        </div>
       </div>
     </footer>
   );
