@@ -20,7 +20,7 @@ import {
   Star,
   Lock
 } from 'lucide-react';
-import { AppItem, PageId } from '../types';
+import { AppItem, PageId, getFullUrl } from '../types';
 
 interface UploadViewProps {
   onAddApp: (newApp: AppItem) => void;
@@ -216,7 +216,7 @@ export default function UploadView({
         formData.append('presetIconUrl', selectedPresetUrl);
       }
 
-      const res = await fetch('/api/apps/upload', {
+      const res = await fetch(getFullUrl('/api/apps/upload'), {
         method: 'POST',
         body: formData
       });

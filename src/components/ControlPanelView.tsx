@@ -10,7 +10,7 @@ import {
   ShieldCheck, 
   RefreshCw 
 } from 'lucide-react';
-import { AppItem, PageId } from '../types';
+import { AppItem, PageId, getFullUrl } from '../types';
 
 interface ControlPanelViewProps {
   apps: AppItem[];
@@ -52,7 +52,7 @@ export default function ControlPanelView({
 
     try {
       const activeKey = sessionStorage.getItem('chavis_dev_auth') === 'true' ? '8963' : accessKey.trim();
-      const res = await fetch(`/api/apps/${appId}`, {
+      const res = await fetch(getFullUrl(`/api/apps/${appId}`), {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

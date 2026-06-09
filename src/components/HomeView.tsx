@@ -65,7 +65,7 @@ export default function HomeView({
           
           <div className="flex-1 text-center lg:text-left z-10">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-6 leading-tight">
-              Potencia tu Android con <span className="text-indigo-400 hover:text-indigo-300 transition-colors">Creaciones Chavis</span>
+              La potencia #1 para tu Android con <span className="text-indigo-400 hover:text-indigo-300 transition-colors">Creaciones Chavis</span>
             </h1>
             <p className="text-base sm:text-lg text-slate-400 font-normal leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
               Descubre una colección de herramientas, juegos emocionantes y aplicaciones de productividad diseñadas para elevar tu experiencia móvil al siguiente nivel.

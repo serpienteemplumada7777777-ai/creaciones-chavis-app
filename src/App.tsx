@@ -23,7 +23,7 @@ import {
   ArrowUpCircle
 } from 'lucide-react';
 
-import { AppItem, PageId } from './types';
+import { AppItem, PageId, API_BASE, getFullUrl } from './types';
 import { INITIAL_APPS } from './data';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -44,10 +44,14 @@ export default function App() {
   // Fetch all applications (Combined system + custom uploads) from Express backend
   const fetchApps = async () => {
     try {
-      const response = await fetch('/api/apps');
+      const response = await fetch(getFullUrl('/api/apps'));
       const responseJson = await response.json();
       if (responseJson.success && responseJson.data) {
-        setApps(responseJson.data);
+        const processed = responseJson.data.map((app: AppItem) => ({
+          ...app,
+          iconUrl: getFullUrl(app.iconUrl)
+        }));
+        setApps(processed);
       } else {
         setApps(INITIAL_APPS);
       }
@@ -118,14 +122,14 @@ export default function App() {
   // Trigger actual file compilation and download from correct server API endpoint
   const initiateNativeFileDownload = (app: AppItem) => {
     const a = document.createElement('a');
-    a.href = `/api/download/${app.id}`;
+    a.href = getFullUrl(`/api/download/${app.id}`);
     a.download = app.fileName || `${app.title.toLowerCase().replace(/\s+/g, '_')}.apk`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
 
     // Register count increment on backend
-    fetch(`/api/apps/${app.id}/download-increment`, { method: 'POST' })
+    fetch(getFullUrl(`/api/apps/${app.id}/download-increment`), { method: 'POST' })
       .then(() => fetchApps())
       .catch((err) => console.error('Could not register click increment:', err));
   };
