@@ -35,13 +35,13 @@ export default function Header({ activeSection, onNavigate }: HeaderProps) {
             <span className="hidden sm:inline text-slate-700">|</span>
             <span className="hidden sm:flex items-center">
               <Mail className="w-3.5 h-3.5 text-sky-400 mr-1.5" />
-              <a href="mailto:contacto@climatizacionchavis.com" className="hover:text-white transition-colors">
-                contacto@climatizacionchavis.com
+              <a href="mailto:serpienteempumada7777777@yahoo.com" className="hover:text-white transition-colors">
+                serpienteempumada7777777@yahoo.com
               </a>
             </span>
           </div>
           <div className="text-[10px] font-bold text-sky-400 bg-slate-850 px-2 py-0.5 rounded font-sans">
-            MONTERREY, NL
+            ZAPOPAN, JALISCO
           </div>
         </div>
       </div>

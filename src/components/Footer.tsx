@@ -22,7 +22,7 @@ export default function Footer({ onNavigate }: FooterProps) {
               </span>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed font-sans">
-              Servicios profesionales de climatización, aire acondicionado y calefacción. Trabajamos en todo Monterrey y área metropolitana con calidad inigualable y honestidad total.
+              Servicios profesionales de climatización, aire acondicionado y calefacción. Trabajamos en todo Zapopan, Guadalajara y área metropolitana con calidad inigualable y honestidad total.
             </p>
           </div>
 
@@ -67,14 +67,14 @@ export default function Footer({ onNavigate }: FooterProps) {
               </div>
               <div className="flex items-center space-x-3 text-slate-400">
                 <Mail className="w-4 h-4 text-sky-500" />
-                <a href="mailto:contacto@climatizacionchavis.com" className="hover:text-white transition-colors">
-                  contacto@climatizacionchavis.com
+                <a href="mailto:serpienteempumada7777777@yahoo.com" className="hover:text-white transition-colors">
+                  serpienteempumada7777777@yahoo.com
                 </a>
               </div>
               <div className="flex items-start space-x-3 text-slate-400">
                 <MapPin className="w-4 h-4 text-sky-500 mt-1 shrink-0" />
                 <span className="leading-tight">
-                  Monterrey, Nuevo León, México
+                  Zapopan, Jalisco, México
                 </span>
               </div>
             </div>

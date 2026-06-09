@@ -89,8 +89,8 @@ export default function Contacto() {
               </div>
               <div className="space-y-1">
                 <span className="text-xs text-slate-400 font-bold block">CORREO ELECTRÓNICO</span>
-                <a href="mailto:contacto@climatizacionchavis.com" className="text-slate-900 font-extrabold text-base hover:text-sky-600 transition-colors break-all">
-                  contacto@climatizacionchavis.com
+                <a href="mailto:serpienteempumada7777777@yahoo.com" className="text-slate-900 font-extrabold text-base hover:text-sky-600 transition-colors break-all">
+                  serpienteempumada7777777@yahoo.com
                 </a>
                 <p className="text-xs text-slate-500">Escríbenos para enviarnos planos o solicitudes comerciales.</p>
               </div>
@@ -104,9 +104,9 @@ export default function Contacto() {
               <div className="space-y-1">
                 <span className="text-xs text-slate-400 font-bold block">DIRECCIÓN DE OFICINAS</span>
                 <p className="text-slate-800 font-bold text-sm">
-                  Av. Solidaridad Real #104, Col. Central, Monterrey, Nuevo León, C.P. 64190
+                  Av. Solidaridad Real #104, Col. Central, Zapopan, Jalisco, C.P. 45110
                 </p>
-                <p className="text-xs text-slate-500">Soporte a toda el Área Metropolitana de Monterrey.</p>
+                <p className="text-xs text-slate-500">Soporte a toda el Área Metropolitana de Guadalajara.</p>
               </div>
             </div>
 
@@ -284,25 +284,25 @@ export default function Contacto() {
             <h4 className="text-lg font-display font-extrabold text-slate-900">Cobertura de Servicio</h4>
             <p className="text-slate-500 font-sans text-xs">Atendemos de manera express las siguientes zonas del área metropolitana:</p>
           </div>
-          <span className="px-3 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase rounded-full">Zona Regiomontana</span>
+          <span className="px-3 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase rounded-full">Zona Metropolitana</span>
         </div>
 
         {/* Mock visual grid representing the mapped coverage territory */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center font-sans text-xs">
           <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
-            <span className="font-extrabold text-slate-900 block font-display">Monterrey</span>
+            <span className="font-extrabold text-slate-900 block font-display">Zapopan</span>
             <span className="text-[10px] text-slate-400">Atención express</span>
           </div>
           <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
-            <span className="font-extrabold text-slate-900 block font-display">San Pedro Garza García</span>
+            <span className="font-extrabold text-slate-900 block font-display">Guadalajara</span>
             <span className="text-[10px] text-slate-400">Atención express</span>
           </div>
           <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
-            <span className="font-extrabold text-slate-900 block font-display">San Nicolás / Escobedo</span>
+            <span className="font-extrabold text-slate-900 block font-display">Tlaquepaque / Tonalá</span>
             <span className="text-[10px] text-slate-400">Visitas programadas</span>
           </div>
           <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
-            <span className="font-extrabold text-slate-900 block font-display">Guadalupe / Apodaca</span>
+            <span className="font-extrabold text-slate-900 block font-display">Tlajomulco de Zúñiga</span>
             <span className="text-[10px] text-slate-400">Visitas programadas</span>
           </div>
         </div>
