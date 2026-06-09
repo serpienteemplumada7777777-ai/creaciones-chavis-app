@@ -15,7 +15,7 @@ export const INITIAL_APPS: AppItem[] = [
     size: '18 MB',
     category: 'Tools',
     iconUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDQ65eIpPg8e-upYCQExCYdX18KcF5S_WF9kOyRO_DbZEqCTRpIUryUk3cQW-oZMHR8z3E8GuQBPo4nw7HuvcRSaAgt-iadbHzSC2t5FeD4x37edvZxIJmLDLRUwi81Tqm-m9W5PxEz4FNB6FmtBc-t8sP4Fen6acbC4u7YQS_4uzMhvPBov3XZPj2U8uz7YDuPRiYFJ_6rjFhCgB8zuIamq4m8rjPCpbGQ1uH1tNsL9AlQf5jYh_eygH1DuJp8R4aDO6zWJ4YDsPY',
-    description: 'A vibrant, modern premium graphic design and vector illustration suite for mobile creators, optimized for speed and precise touch interaction.',
+    description: 'A vibrant, modern graphic design and vector illustration suite for mobile creators, optimized for speed and precise touch interaction.',
     downloadsCount: 1450,
     isFeatured: true,
     dateAdded: '2026-05-15',
