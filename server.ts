@@ -264,6 +264,16 @@ app.delete("/api/apps/:appId", (req, res) => {
 });
 
 
+// Global Error Handler Middleware
+app.use((err: any, req: any, res: any, next: any) => {
+  console.error("Global express server error caught:", err);
+  res.status(err.status || err.statusCode || 500).json({
+    success: false,
+    message: err.message || "Ha ocurrido un error inesperado al procesar la solicitud en el servidor."
+  });
+});
+
+
 // Vite Dev Server middleware or Production Asset server
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {

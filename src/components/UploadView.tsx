@@ -157,6 +157,8 @@ export default function UploadView({
     iconInputRef.current?.click();
   };
 
+  const isSubmittingRef = useRef(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -170,23 +172,31 @@ export default function UploadView({
       return;
     }
 
+    if (isSubmittingRef.current) {
+      return;
+    }
+
     // Trigger simulation progress
     setFormStep('uploading');
     setUploadPercent(0);
 
+    let progress = 0;
     const interval = setInterval(() => {
-      setUploadPercent((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          completeSubmission();
-          return 100;
-        }
-        return prev + 10;
-      });
-    }, 150);
+      progress += 10;
+      if (progress >= 100) {
+        clearInterval(interval);
+        setUploadPercent(100);
+        completeSubmission();
+      } else {
+        setUploadPercent(progress);
+      }
+    }, 100);
   };
 
   const completeSubmission = async () => {
+    if (isSubmittingRef.current) return;
+    isSubmittingRef.current = true;
+
     try {
       const formData = new FormData();
       formData.append('title', title.trim());
@@ -212,8 +222,18 @@ export default function UploadView({
       });
 
       if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.message || 'Error del servidor durante la subida.');
+        let errMsg = 'Error del servidor durante la subida.';
+        try {
+          const errData = await res.json();
+          errMsg = errData.message || errMsg;
+        } catch (jsonErr) {
+          // Response is not JSON
+          try {
+            const rawText = await res.text();
+            if (rawText && rawText.length < 200) errMsg = rawText;
+          } catch (textErr) {}
+        }
+        throw new Error(errMsg);
       }
 
       const responseData = await res.json();
@@ -226,8 +246,11 @@ export default function UploadView({
         throw new Error(responseData.message || 'Error guardando en el servidor.');
       }
     } catch (e: any) {
-      alert(`Error al subir la aplicación: ${e.message}`);
+      console.error('Error in completeSubmission:', e);
+      alert(`Error al subir la aplicación: ${e.message || e}`);
       setFormStep('edit');
+    } finally {
+      isSubmittingRef.current = false;
     }
   };
 
